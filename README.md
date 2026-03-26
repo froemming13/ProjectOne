@@ -1,8 +1,8 @@
-# [Your Project Name Here]
+# [Assignment Tracker]
 
 **CS178: Cloud and Database Systems — Project #1**
-**Author:** [Your Name]
-**GitHub:** [your-username]
+**Author:** [Mikayla Froemming]
+**GitHub:** [froemming13]
 
 ---
 
