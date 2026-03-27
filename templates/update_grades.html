@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Update Grade</title>
+</head>
+<body>
+    <h1>Update Student Grade</h1>
+    <h4>Assignment ID: 1 = "Homework 1" | 2 = "Quiz 1" | 3 = "Midterm" | 4 = "Homework 2" | 5 = "Final Project" </h4>
+
+    <form method="post">
+        <label>Student ID:</label><br>
+        <input type="number" name="student_id" required><br>
+
+        <label>Assignment ID:</label><br>
+        <input type="number" name="assignment_id" required><br>
+
+        <label>New Score:</label><br>
+        <input type="number" name="score" required><br>
+
+        <input type="submit" value="Update Grade">
+    </form>
+</body>
+</html>

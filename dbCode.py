@@ -110,3 +110,32 @@ def delete_student_from_db(student_id):
     
     table.delete_item(Key={"student_id": student_id})
     return True
+
+def update_student_grades_db(student_id, assignment_id, new_score):
+    table = get_table()
+
+    response = table.get_item(Key={"student_id": student_id})
+
+    if "Item" not in response:
+        return False
+    found = False
+
+    student = response["Item"]
+    assignments = student.get("assignments", [])
+
+    for a in assignments:
+        if int(a.get("assignment_id", 0)) == int(assignment_id):
+            a["score"] = int(new_score)
+            found = True
+
+    if not found:
+        return False
+    
+    #asked chatgpt for help in this section:
+    table.update_item(
+        Key={"student_id": student_id},
+        UpdateExpression="Set assignments = :a",
+        ExpressionAttributeValues={":a": assignments}
+    )
+
+    return True

@@ -51,6 +51,23 @@ def delete_student():
         # Render the form page if the request method is GET
         return render_template('delete_user.html')
 
+@app.route('/update-grades', methods=['GET', 'POST'])
+def update_grades():
+    if request.method == 'POST':
+        student_id = int(request.form['student_id'])
+        assignment_id = int(request.form['assignment_id'])
+        new_score = int(request.form['score'])
+
+        success = update_student_grades_db(student_id, assignment_id, new_score)
+
+        if success:
+            flash('Grade updated successfully!', 'success')
+        else:
+            flash('Student or assignment not found.', 'danger')
+
+        return redirect(url_for('home'))
+    
+    return render_template('update_grades.html')
 
 @app.route('/display-students')
 def display_students():
