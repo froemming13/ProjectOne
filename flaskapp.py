@@ -39,7 +39,7 @@ def delete_student():
         # Extract form data
         student_id = int(request.form['student_id'])
 
-        success = delete_student(student_id)
+        success = delete_student_from_db(student_id)
 
         if success:
             flash(f'Student {student_id} deleted!', 'success')

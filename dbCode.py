@@ -100,7 +100,7 @@ def add_student_to_db(name, email, grade_level):
     table.put_item(Item=student)
     return new_id
 
-def delete_student(student_id):
+def delete_student_from_db(student_id):
     table = get_table()
 
     response = table.get_item(Key={"student_id": student_id})
