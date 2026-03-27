@@ -51,12 +51,10 @@ def delete_user():
         return render_template('delete_user.html')
 
 
-@app.route('/display-users')
-def display_users():
-    # hard code a value to the users_list;
-    # note that this could have been a result from an SQL query :) 
-    users_list = (('John','Doe','Comedy'),('Jane', 'Doe','Drama'))
-    return render_template('display_users.html', users = users_list)
+@app.route('/display-students')
+def display_students():
+    students = get_all_students()
+    return render_template('display_users.html', users = students)
 
 
 # these two lines of code should always be the last in the file
