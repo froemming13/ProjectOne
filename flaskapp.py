@@ -54,6 +54,8 @@ def delete_user():
 @app.route('/display-students')
 def display_students():
     students = get_all_students()
+    if students is None:
+        students = []
     return render_template('display_users.html', users = students)
 
 
