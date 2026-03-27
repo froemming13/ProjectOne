@@ -38,13 +38,7 @@ INSERT INTO Students (name, grade_level, email) VALUES
 ('Alice Johnson', 10, 'alice@example.com'),
 ('Brian Smith', 11, 'brian@example.com'),
 ('Cathy Lee', 10, 'cathy@example.com'),
-('David Brown', 12, 'david@example.com'),
-('Emma Wilson', 11, 'emma@example.com'),
-('Frank Thomas', 10, 'frank@example.com'),
-('Grace Hall', 12, 'grace@example.com'),
-('Henry Clark', 11, 'henry@example.com'),
-('Isabella Lewis', 10, 'isabella@example.com'),
-('Jack Walker', 12, 'jack@example.com');
+('David Brown', 12, 'david@example.com');
 
 -- Insert Assignments
 INSERT INTO Assignments (title, max_score, due_date) VALUES
@@ -59,10 +53,4 @@ INSERT INTO Grades (student_id, assignment_id, score) VALUES
 (1,1,95),(1,2,45),(1,3,88),(1,4,92),(1,5,140),
 (2,1,85),(2,2,40),(2,3,78),(2,4,88),(2,5,130),
 (3,1,90),(3,2,48),(3,3,85),(3,4,91),(3,5,142),
-(4,1,70),(4,2,35),(4,3,65),(4,4,75),(4,5,120),
-(5,1,88),(5,2,42),(5,3,80),(5,4,85),(5,5,135),
-(6,1,92),(6,2,46),(6,3,87),(6,4,90),(6,5,145),
-(7,1,78),(7,2,38),(7,3,72),(7,4,80),(7,5,125),
-(8,1,84),(8,2,41),(8,3,79),(8,4,86),(8,5,132),
-(9,1,91),(9,2,47),(9,3,89),(9,4,93),(9,5,148),
-(10,1,75),(10,2,36),(10,3,70),(10,4,78),(10,5,122);
+(4,1,70),(4,2,35),(4,3,65),(4,4,75),(4,5,120);
