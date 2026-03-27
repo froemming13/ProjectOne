@@ -54,7 +54,7 @@ def get_all_students():
         email = item.get("email", "Unknown Email")
         grade_level = int(item.get("grade_level", 0)) if isinstance(item.get("grade_level", 0), decimal.Decimal) else item.get("grade_level", 0)
 
-        #consulted with ChatGPT for assistance on this one due to DynamoDB table issues:
+        #consulted with ChatGPT for assistance on appending assignments (used decimal.Decimal information from above)::
         assignments = []
         for a in item.get("assignments", []):
             assignment_id = int(a.get("assignment_id", 0)) if isinstance(a.get("assignment_id", 0), decimal.Decimal) else a.get("assignment_id", 0)
@@ -74,3 +74,28 @@ def get_all_students():
             "assignments": assignments
         })
     return students
+
+def add_student_to_db(name, email, grade_level):
+    table = get_table()
+
+    # used dynamodb documentation for ProjectionExpression
+    response = table.scan(ProjectionExpression="student_id")
+    items = response.get("Items",[])
+    
+    if items:
+        student_ids = [int(item["student_id"]) for item in items]
+        new_id = max(student_ids) + 1
+    else:
+        new_id = 10
+
+    #student record
+    student = {
+        "student_id": new_id,
+        "name": name,
+        "email": email,
+        "grade_level": int(grade_level),
+        "assignments": []
+    }
+
+    table.put_item(Item=student)
+    return new_id
