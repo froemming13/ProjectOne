@@ -99,3 +99,14 @@ def add_student_to_db(name, email, grade_level):
 
     table.put_item(Item=student)
     return new_id
+
+def delete_student(student_id):
+    table = get_table()
+
+    response = table.get_item(Key={"student_id": student_id})
+
+    if "Item" not in response:
+        return False
+    
+    table.delete_item(Key={"student_id": student_id})
+    return True
