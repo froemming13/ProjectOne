@@ -21,12 +21,12 @@ def add_student():
         # Extract form data
         name = request.form['name']
         email = request.form['email']
+        grade_level = request.form['grade_level']
         
-        # Process the data (e.g., add it to a database)
-        # For now, let's just print it to the console
-        print("Name:", name, ":", "Email:", email)
+        # Adding student to DynamoDB
+        new_student = add_student_to_db(name, email, grade_level)        
         
-        flash('New Student Added', 'success')  # 'success' is a category; makes a green banner at the top
+        flash(f'New Student Added! ID: {new_id}', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
