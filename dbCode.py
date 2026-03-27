@@ -9,6 +9,8 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from boto3.dynamodb.conditions import Attr
 
+import decimal #fixing errors in viewing all students.
+
 # boto3 uses the credentials configured via `aws configure` on EC2
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 table = dynamodb.Table('Students')
@@ -45,20 +47,24 @@ def get_all_students():
     items = response.get("Items", [])
     students = []
     
+    #asked for help regarding isinstance due to decimal.Decimal errors for number entries.
     for item in response.get("Items", []):
-        student_id = int(item.get("student_id", {}).get("N", 0))
-        name = item.get("name", {}).get("S", "Unknown Name")
-        email = item.get("email", {}).get("S", "Unknown Email")
-        grade_level = int(item.get("grade_level", {}).get("N", 0))
+        student_id = int(item.get("student_id", 0)) if isinstance(item.get("student_id", 0), decimal.Decimal) else item.get("student_id", 0)
+        name = item.get("name", "Unknown Name")
+        email = item.get("email", "Unknown Email")
+        grade_level = int(item.get("grade_level", 0)) if isinstance(item.get("grade_level", 0), decimal.Decimal) else item.get("grade_level", 0)
 
         #consulted with ChatGPT for assistance on this one due to DynamoDB table issues:
         assignments = []
-        for a in item.get("assignments", {}).get("L", []):
-            am = a.get("M", {})
+        for a in item.get("assignments", []):
+            assignment_id = int(a.get("assignment_id", 0)) if isinstance(a.get("assignment_id", 0), decimal.Decimal) else a.get("assignment_id", 0)
+            title = a.get("title", "Untitled")
+            score = int(a.get("score", 0)) if isinstance(a.get("score", 0), decimal.Decimal) else a.get("score", 0)
             assignments.append({
-                "assignment_id": int(am.get("assignment_id",{}).get("N", 0)),
-                "title": am.get("title", {}).get("S", "Untitled"),
-                "score": int(am.get("score", {}).get("N", 0))})
+                "assignment_id": assignment_id,
+                "title": title,
+                "score": score
+            })
 
         students.append({
             "student_id": student_id,
