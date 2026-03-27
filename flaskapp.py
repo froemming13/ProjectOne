@@ -24,7 +24,7 @@ def add_student():
         grade_level = request.form['grade_level']
         
         # Adding student to DynamoDB
-        new_student = add_student_to_db(name, email, grade_level)        
+        new_id = add_student_to_db(name, email, grade_level)        
         
         flash(f'New Student Added! ID: {new_id}', 'success')  # 'success' is a category; makes a green banner at the top
         # Redirect to home page or another page upon successful submission
