@@ -8,7 +8,7 @@
 
 ## Overview
 
-<!-- Describe your project in 2-4 sentences. What does it do? Who is it for? What problem does it solve? -->
+This is a web-based grading system that allows a user to manage student records and assignment scores through a simple interface. It allows a user to add, view, update, and delete students while storing their information in a DynamoDB database. The system is designed for teachers or administrators who need a quick way to track students and their performance. It solves the problem of organizing and updating grades by providing a centralized platform.
 
 ---
 
@@ -28,10 +28,14 @@
 ProjectOne/
 ├── flaskapp.py          # Main Flask application — routes and app logic
 ├── dbCode.py            # Database helper functions (MySQL connection + queries)
+├── ProjectOneGrading.sql # SQL database (tables) and corresponding values.
 ├── creds_sample.py      # Sample credentials file (see Credential Setup below)
 ├── templates/
 │   ├── home.html        # Landing page
-│   ├── [other].html     # Add descriptions for your other templates
+│   ├── add_user.html    # Display page for adding a student.
+│   ├── delete_user.html # Display page for deleting a student
+│   ├── display_user.html # Display page for showing all students on the roster.
+│   ├── update_grades.html # Display page to update or add a students grades.
 ├── .gitignore           # Excludes creds.py and other sensitive files
 └── README.md
 ```
@@ -43,8 +47,8 @@ ProjectOne/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git https://github.com/froemming13/ProjectOne.git
+   cd ProjectOne
    ```
 
 2. Install dependencies:
@@ -70,7 +74,7 @@ ProjectOne/
 The app is deployed on an AWS EC2 instance. To view the live version:
 
 ```
-http://[your-ec2-public-ip]:8080
+http://127.0.0.1/:8080
 ```
 
 _(Note: the EC2 instance may not be running after project submission.)_
@@ -97,22 +101,34 @@ db = "your-database-name"
 
 ### SQL (MySQL on RDS)
 
-<!-- Briefly describe your relational database schema. What tables do you have? What are the key relationships? -->
+The relational database uses three main tables to store students, assignments, and their corresponding grades.
 
-**Example:**
-
-- `[TableName]` — stores [description]; primary key is `[key]`
-- `[TableName]` — stores [description]; foreign key links to `[other table]`
+- Students — stores student information such as their name, grade level, and email; primary key is `student_id`
+- Assignments — stores assignment details such as title, maximum score, and due date; primary key is `assignment_id`
+- Grades — stores the relationship between students and assignments along with their scores; foreign keys link to both tables, `student_id` and `assignment_id`
 
 The JOIN query used in this project: <!-- describe it in plain English -->
 
 ### DynamoDB
 
-<!-- Describe your DynamoDB table. What is the partition key? What attributes does each item have? How does it connect to the rest of the app? -->
+The DynamoDB table stores student records where each item includes attributes such as their student ID, name, email, and grade level. Each student has a nested list of assignments, and contains assignment ID, title, and score.
 
-- **Table name:** `[your-table-name]`
-- **Partition key:** `[key-name]`
-- **Used for:** [description]
+- **Table name:** `Students`
+- **Partition key:** `student_id`
+- **Used for:** storing each student as a single item, including their personal information and a list of their assignments and corresponding scores.
+
+- **Contains:**
+- * student_id (partition key) [Number]
+- * name [String]
+- * email [String]
+- * grade_level [Number]
+- * assignments [List]
+Following items are nested inside the assignments list as maps for each student:
+-   * assignment_id [Number]
+-   * title [String]
+-   * score [Number]
+
+DynamoDB stores related data as one item, allowing the application to quickly retrieve and update a student's assignments without needing queries.
 
 ---
 
@@ -120,10 +136,10 @@ The JOIN query used in this project: <!-- describe it in plain English -->
 
 | Operation | Route      | Description    |
 | --------- | ---------- | -------------- |
-| Create    | `/[route]` | [what it does] |
-| Read      | `/[route]` | [what it does] |
-| Update    | `/[route]` | [what it does] |
-| Delete    | `/[route]` | [what it does] |
+| Create    | `/add-student` | Adds a new student to the DynamoDB table with a unique student_id, name, email, grade level, and an empty assignments list.|
+| Read      | `/display-students` | Retrieves all students from DynamoDB and displays their information, including assignments and scores in a table format. |
+| Update    | `/update-grades` | Updates a student's assignment score. If the assignment does not exist, it creates a new assignment entry with a title and score (used for new students) |
+| Delete    | `/delete-student` | Deletes a student from the DynamoDB table based on their student_id. |
 
 ---
 
