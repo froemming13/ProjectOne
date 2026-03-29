@@ -118,10 +118,20 @@ def update_student_grades_db(student_id, assignment_id, new_score):
 
     if "Item" not in response:
         return False
-    found = False
 
     student = response["Item"]
     assignments = student.get("assignments", [])
+
+    found = False
+    
+    #title map for new assignments
+    title_map = {
+        1: "Homework 1",
+        2: "Quiz 1",
+        3: "Midterm Exam",
+        4: "Homework 2",
+        5: "Final Project"
+    }
 
     for a in assignments:
         if int(a.get("assignment_id", 0)) == int(assignment_id):
@@ -129,7 +139,11 @@ def update_student_grades_db(student_id, assignment_id, new_score):
             found = True
 
     if not found:
-        return False
+        assignments.append({
+            "assignment_id": int(assignment_id),
+            "title": title_map.get(int(assignment_id)),
+            "score": int(new_score)
+        })
     
     #asked chatgpt for help in this section:
     table.update_item(
