@@ -76,6 +76,15 @@ def display_students():
         students = []
     return render_template('display_users.html', users = students)
 
+@app.route('/low-grades', methods=['GET','POST'])
+def low_grades():
+    if request.method == 'POST':
+        threshold = int(request.form['threshold'])
+        results = get_low_grades(threshold)
+        return render_template('low_grades.html', results=results)
+    
+    return render_template('low_grades_form.html')
+
 
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':

@@ -16,8 +16,8 @@ This is a web-based grading system that allows a user to manage student records 
 
 - **Flask** — Python web framework
 - **AWS EC2** — hosts the running Flask application
-- **AWS RDS (MySQL)** — relational database for [describe what you stored]
-- **AWS DynamoDB** — non-relational database for [describe what you stored]
+- **AWS RDS (MySQL)** — relational database for storing student information, as well as assignment information and grades.
+- **AWS DynamoDB** — non-relational database for student information and their grades for assignments.
 - **GitHub Actions** — auto-deploys code from GitHub to EC2 on push
 
 ---
@@ -107,7 +107,14 @@ The relational database uses three main tables to store students, assignments, a
 - Assignments — stores assignment details such as title, maximum score, and due date; primary key is `assignment_id`
 - Grades — stores the relationship between students and assignments along with their scores; foreign keys link to both tables, `student_id` and `assignment_id`
 
-The JOIN query used in this project: <!-- describe it in plain English -->
+The JOIN query used in this project:
+
+Grades Below a Certain Percentage:
+SELECT Students.name, Assignments.title, Grades.score
+FROM Students
+JOIN Grades ON Students.student_id = Grades.student_id
+JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
+WHERE Grades.score <= %s;
 
 ### DynamoDB
 

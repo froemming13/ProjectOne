@@ -153,3 +153,21 @@ def update_student_grades_db(student_id, assignment_id, new_score):
     )
 
     return True
+
+def get_low_grades(threshold):
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    query = """
+    SELECT Students.name, Assignments.title, Grades.score
+    FROM Students
+    JOIN Grades ON Students.student_id = Grades.student_id
+    JOIN Assignments on Grades.assignment_id = Assignments.assignment_id
+    WHERE Grades.score < %s; 
+    """
+
+    cursor.execute(query, (threshold,))
+    results = cursor.fetchall()
+    conn.close()
+
+    return results
