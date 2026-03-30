@@ -74,7 +74,7 @@ ProjectOne/
 The app is deployed on an AWS EC2 instance. To view the live version:
 
 ```
-http://127.0.0.1/:8080
+http://34.202.235.79:8080
 ```
 
 _(Note: the EC2 instance may not be running after project submission.)_
