@@ -172,7 +172,7 @@ def get_low_grades(threshold):
 
     return results
 
-def average_grade():
+def get_average_grade():
     conn = get_conn()
     cursor = conn.cursor()
 
@@ -189,3 +189,5 @@ def average_grade():
     cursor.execute(query, ())
     results = cursor.fetchall()
     conn.close()
+
+    return results
