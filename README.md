@@ -77,6 +77,7 @@ The app is deployed on an AWS EC2 instance. To view the live version:
 
 ```
 http://34.202.235.79:8080
+
 ```
 
 _(Note: the EC2 instance may not be running after project submission.)_
@@ -109,7 +110,7 @@ The relational database uses three main tables to store students, assignments, a
 - Assignments — stores assignment details such as title, maximum score, and due date; primary key is `assignment_id`
 - Grades — stores the relationship between students and assignments along with their scores; foreign keys link to both tables, `student_id` and `assignment_id`
 
-The JOIN query used in this project:
+#### The JOIN query used in this project:
 
 Grades Below a Certain Percentage:
  - This is selecting the Tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user.

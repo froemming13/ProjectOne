@@ -85,7 +85,13 @@ def low_grades():
     
     return render_template('low_grades_form.html')
 
-
+@app.route('/students_average', methods=['GET','POST'])
+def average_grade():
+    if request.method == "POST":
+        results = get_average_grade()
+        
+    return render_template('students_average.html', results=results)
+    
 # these two lines of code should always be the last in the file
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Grades</title>
+</head>
+<body>
+
+    <h1>Student Grades</h1>
+
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Total Earned</th>
+            <th>Total Possible</th>
+            <th>Percent Grade</th>
+        </tr>
+
+        {% for student in grades %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.total_earned }}</td>
+            <td>{{ student.total_possible }}</td>
+            <td>{{ student.percent_grade }}%</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>

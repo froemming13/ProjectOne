@@ -171,3 +171,21 @@ def get_low_grades(threshold):
     conn.close()
 
     return results
+
+def average_grade():
+    conn = get_conn()
+    cursor = conn.cursor()
+
+    query = """
+    SELECT Students.name, SUM(Grades.score) AS earned_points,
+    SUM(Assignments.max_score) AS total_possible,
+    ROUND(SUM(Grades.score) / SUM(Assignments.max_score) * 100, 2) AS average_grade
+    FROM Students
+    JOIN Grades ON Students.student_id = Grades.student_id
+    JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
+    GROUP BY Students.student_id, Students.name'
+    """
+
+    cursor.execute(query, ())
+    results = cursor.fetchall()
+    conn.close()
