@@ -186,7 +186,7 @@ def get_average_grade():
     GROUP BY Students.student_id, Students.name
     """
 
-    cursor.execute(query, ())
+    cursor.execute(query)
     results = cursor.fetchall()
     conn.close()
 

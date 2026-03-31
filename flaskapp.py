@@ -85,7 +85,7 @@ def low_grades():
     
     return render_template('low_grades_form.html')
 
-@app.route('/students_average', methods=['GET','POST'])
+@app.route('/students_average')
 def average_grade():
     results = get_average_grade()
     return render_template('students_average.html', results=results)
