@@ -36,6 +36,8 @@ ProjectOne/
 │   ├── delete_user.html # Display page for deleting a student
 │   ├── display_user.html # Display page for showing all students on the roster.
 │   ├── update_grades.html # Display page to update or add a students grades.
+│   ├── low_grades_form.html # Display page to enter grade threshold
+│   ├── low_grades.html # Display page to show student grades under the threshold.
 ├── .gitignore           # Excludes creds.py and other sensitive files
 └── README.md
 ```
@@ -110,12 +112,13 @@ The relational database uses three main tables to store students, assignments, a
 The JOIN query used in this project:
 
 Grades Below a Certain Percentage:
+ - This is selecting the Tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user.
+-----------------------------------------------------
 SELECT Students.name, Assignments.title, Grades.score
 FROM Students
 JOIN Grades ON Students.student_id = Grades.student_id
 JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
-WHERE Grades.score <= %s;
-
+WHERE Grades.score <= %s;-----------------------------------------------------
 ### DynamoDB
 
 The DynamoDB table stores student records where each item includes attributes such as their student ID, name, email, and grade level. Each student has a nested list of assignments, and contains assignment ID, title, and score.
