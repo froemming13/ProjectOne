@@ -15,12 +15,12 @@
             <th>Percent Grade</th>
         </tr>
 
-        {% for student in grades %}
+        {% for student in results %}
         <tr>
             <td>{{ student.name }}</td>
-            <td>{{ student.total_earned }}</td>
+            <td>{{ student.earned_points }}</td>
             <td>{{ student.total_possible }}</td>
-            <td>{{ student.percent_grade }}%</td>
+            <td>{{ student.average_grade }}%</td>
         </tr>
         {% endfor %}
 
