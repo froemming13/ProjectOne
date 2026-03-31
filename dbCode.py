@@ -183,7 +183,7 @@ def get_average_grade():
     FROM Students
     JOIN Grades ON Students.student_id = Grades.student_id
     JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
-    GROUP BY Students.student_id, Students.name'
+    GROUP BY Students.student_id, Students.name
     """
 
     cursor.execute(query, ())

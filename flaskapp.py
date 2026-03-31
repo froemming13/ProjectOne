@@ -87,6 +87,8 @@ def low_grades():
 
 @app.route('/students_average', methods=['GET','POST'])
 def average_grade():
+    results = []
+    
     if request.method == "POST":
         results = get_average_grade()
         
