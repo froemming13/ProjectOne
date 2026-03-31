@@ -173,9 +173,7 @@ def get_low_grades(threshold):
     return results
 
 def get_average_grade():
-    conn = get_conn()
-    cursor = conn.cursor()
-
+    
     query = """
     SELECT Students.name, SUM(Grades.score) AS earned_points,
     SUM(Assignments.max_score) AS total_possible,
@@ -186,8 +184,6 @@ def get_average_grade():
     GROUP BY Students.student_id, Students.name
     """
 
-    cursor.execute(query)
-    results = cursor.fetchall()
-    conn.close()
+    results = execute_query(query)
 
     return results

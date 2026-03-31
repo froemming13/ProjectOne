@@ -88,6 +88,7 @@ def low_grades():
 @app.route('/students_average')
 def average_grade():
     results = get_average_grade()
+    print("DEBUG:", results)
     return render_template('students_average.html', results=results)
     
 # these two lines of code should always be the last in the file
