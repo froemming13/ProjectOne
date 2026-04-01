@@ -167,10 +167,13 @@ DynamoDB stores related data as one item, allowing the application to quickly re
 
 ## Challenges and Insights
 
+The biggest challenge I had was getting MySQL database to properly connect and show up across my local terminal, EC2 instance, and show results on my Flask application. This is partially due to my local device not recognizing `mysql` commands even after multiple rounds of troubleshooting, however it worked through my EC2 instance. I also had a rough time implementing how to append or search through my Assignments table. This is because it is a nested list that holds each assignment and it's information. I did a lot of debugging and work with sections that included the Assignments table (both with CRUD operations AND SQL sections), however I had to turn to ChatGPT to fix a few sections within my CRUD operations to get them to run properly.
+
+In regards to what I learned, I learned more about troubleshooting with my local device and terminal and how to deal with my path files when something is not found or recognized when using my terminal.
 <!-- What was the hardest part? What did you learn? Any interesting design decisions? -->
 
 ---
 
 ## AI Assistance
 
-<!-- List any AI tools you used (e.g., ChatGPT) and briefly describe what you used them for. Per course policy, AI use is allowed but must be cited in code comments and noted here. -->
+If sections were not working after a lengthy time of debugging or hassle, I discussed my ideas with ChatGPT and provided current code to improve upon to fix. Each section that used ChatGPT for assistance is marked as such in a comment. Primarily used in sections where I did not know how to use certain functions from documentation, "isinstance" section, minor fixes (importing decimal), and for code primarily used for fixing code associated with the Assignments section. All code provided was refined from previous personal attempts, not entirely written by ChatGPT alone.
