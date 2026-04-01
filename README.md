@@ -110,16 +110,27 @@ The relational database uses three main tables to store students, assignments, a
 - Assignments — stores assignment details such as title, maximum score, and due date; primary key is `assignment_id`
 - Grades — stores the relationship between students and assignments along with their scores; foreign keys link to both tables, `student_id` and `assignment_id`
 
-#### The JOIN query used in this project:
+### The JOIN query used in this project:
 
-Grades Below a Certain Percentage:
- - This is selecting the Tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user.
------------------------------------------------------
+#### Grades Below a Certain Percentage:
+This is selecting the tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user.
+```mysql
 SELECT Students.name, Assignments.title, Grades.score
 FROM Students
 JOIN Grades ON Students.student_id = Grades.student_id
 JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
-WHERE Grades.score <= %s;-----------------------------------------------------
+WHERE Grades.score <= %s;
+```
+---
+#### Student's Overall Grade:
+This is selecting the tables Students, Grades, and Assignments and pulling the variables we need from each respective table (i.e. name from Students, their scores from Grades, and max score from Assignments). From there we join Students and Grades using student_id so we can match students to their scores. We then join Assignments to Grades using the assignment_id so we know how many points each assignment was worth. We group everything by each student and add up their total earned points and total possible points, and then calculate their overall percentage grade from that.
+```mysql
+SELECT Students.name, SUM(Grades.score) AS earned_points, SUM(Assignments.max_score) AS total_possible, ROUND(SUM(Grades.score) / SUM(Assignments.max_score) * 100, 2) AS average_grade 
+FROM Students JOIN Grades ON Students.student_id = Grades.student_id 
+JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id 
+GROUP BY Students.student_id, Students.name
+```
+---
 ### DynamoDB
 
 The DynamoDB table stores student records where each item includes attributes such as their student ID, name, email, and grade level. Each student has a nested list of assignments, and contains assignment ID, title, and score.
