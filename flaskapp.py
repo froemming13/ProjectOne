@@ -18,29 +18,31 @@ def home():
 @app.route('/add-student', methods=['GET', 'POST'])
 def add_student():
     if request.method == 'POST':
-        # Extract form data
+        # extract form data
         name = request.form['name']
         email = request.form['email']
         grade_level = request.form['grade_level']
         
-        # Adding student to DynamoDB
+        # adding student to DynamoDB
         new_id = add_student_to_db(name, email, grade_level)        
         
         flash(f'New Student Added! ID: {new_id}', 'success')  # 'success' is a category; makes a green banner at the top
-        # Redirect to home page or another page upon successful submission
+        # redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
-        # Render the form page if the request method is GET
+        # render the form page if the request method is GET
         return render_template('add_user.html')
 
 @app.route('/delete-student',methods=['GET', 'POST'])
 def delete_student():
     if request.method == 'POST':
-        # Extract form data
+        # extract form data
         student_id = int(request.form['student_id'])
 
+        # attempts to delete student
         success = delete_student_from_db(student_id)
 
+        # message based on results
         if success:
             flash(f'Student {student_id} deleted!', 'success')
         else:
@@ -48,46 +50,58 @@ def delete_student():
         
         return redirect(url_for('home'))
     else:
-        # Render the form page if the request method is GET
+        # render the form page if the request method is GET
         return render_template('delete_user.html')
 
 @app.route('/update-grades', methods=['GET', 'POST'])
 def update_grades():
     if request.method == 'POST':
+        # grabs form data and converts it
         student_id = int(request.form['student_id'])
         assignment_id = int(request.form['assignment_id'])
         new_score = int(request.form['score'])
 
+        # update student grade
         success = update_student_grades_db(student_id, assignment_id, new_score)
 
+        # show appropriate result message
         if success:
             flash('Grade updated successfully!', 'success')
         else:
             flash('Student or assignment not found.', 'danger')
 
+        # redirect to home page
         return redirect(url_for('home'))
     
+    # show the form
     return render_template('update_grades.html')
 
 @app.route('/display-students')
 def display_students():
     students = get_all_students()
+    # if no students found and returned set to empty list
     if students is None:
         students = []
+    # render page with student data
     return render_template('display_users.html', users = students)
 
 @app.route('/low-grades', methods=['GET','POST'])
 def low_grades():
     if request.method == 'POST':
+        # get threshold from form and ensure it is an integer
         threshold = int(request.form['threshold'])
+        # grab students with grades below the threshold
         results = get_low_grades(threshold)
+        # render the results
         return render_template('low_grades.html', results=results)
     
+    # show input form
     return render_template('low_grades_form.html')
 
 @app.route('/students_average')
 def average_grade():
     results = get_average_grade()
+    # render results page with averages
     return render_template('students_average.html', results=results)
     
 # these two lines of code should always be the last in the file
