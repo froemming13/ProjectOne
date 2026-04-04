@@ -24,9 +24,13 @@ def add_student():
         grade_level = request.form['grade_level']
         
         # adding student to DynamoDB
-        new_id = add_student_to_db(name, email, grade_level)        
+        try:
+            new_id = add_student_to_db(name, email, grade_level)        
+            flash(f'New Student Added! ID: {new_id}', 'success')  # 'success' is a category; makes a green banner at the top
         
-        flash(f'New Student Added! ID: {new_id}', 'success')  # 'success' is a category; makes a green banner at the top
+        except Exception as e:
+            flash(f"An error occured while adding the student, please enter a valid integer: {str(e)}", 'danger')
+        
         # redirect to home page or another page upon successful submission
         return redirect(url_for('home'))
     else:
@@ -37,16 +41,24 @@ def add_student():
 def delete_student():
     if request.method == 'POST':
         # extract form data
-        student_id = int(request.form['student_id'])
+        try:
+            student_id = int(request.form['student_id'])
 
+        except (ValueError, KeyError):
+            flash("Please enter a valid Student ID.", 'danger')
+            return redirect(url_for('delete_student'))
+        
         # attempts to delete student
-        success = delete_student_from_db(student_id)
-
-        # message based on results
-        if success:
-            flash(f'Student {student_id} deleted!', 'success')
-        else:
-            flash(f'Student ID {student_id} not found', 'danger')
+        try:
+            success = delete_student_from_db(student_id)
+            # message based on results
+            if success:
+                flash(f'Student {student_id} deleted!', 'success')
+            else:
+                flash(f'Student ID {student_id} not found', 'danger')
+        
+        except Exception as e:
+            flash(f"An error occured while deleting the student: {str(e)}",'danger')
         
         return redirect(url_for('home'))
     else:
@@ -57,10 +69,14 @@ def delete_student():
 def update_grades():
     if request.method == 'POST':
         # grabs form data and converts it
-        student_id = int(request.form['student_id'])
-        assignment_id = int(request.form['assignment_id'])
-        new_score = int(request.form['score'])
-
+        try:
+            student_id = int(request.form['student_id'])
+            assignment_id = int(request.form['assignment_id'])
+            new_score = int(request.form['score'])
+        except (ValueError, KeyError):
+            flash("Please enter valid numeric values for student, assignment, and score.", 'danger')
+            return redirect(url_for('update_grades'))
+        
         # update student grade
         success = update_student_grades_db(student_id, assignment_id, new_score)
 
