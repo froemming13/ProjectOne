@@ -172,7 +172,7 @@ def get_low_grades(threshold):
 
     # SQL query to find low grades
     query = """
-    SELECT Students.name, Assignments.title, Assignments.max_score Grades.score
+    SELECT Students.name, Assignments.title, Assignments.max_score, Grades.score
     FROM Students
     JOIN Grades ON Students.student_id = Grades.student_id
     JOIN Assignments on Grades.assignment_id = Assignments.assignment_id

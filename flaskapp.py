@@ -88,8 +88,11 @@ def display_students():
 @app.route('/low-grades', methods=['GET','POST'])
 def low_grades():
     if request.method == 'POST':
+        try:
         # get threshold from form and ensure it is an integer
-        threshold = int(request.form['threshold'])
+            threshold = float(request.form['threshold'])
+        except (ValueError, KeyError):
+            return render_template('low_grades_form.html', error = "Please enter a valid number.")
         # grab students with grades below the threshold
         results = get_low_grades(threshold)
         # render the results
