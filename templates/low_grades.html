@@ -1,13 +1,13 @@
 <h2>Students Below Threshold</h2>
 
 <table>
-<tr><th>Name</th><th>Assignment</th><th>Score</th></tr>
+<tr><th>Name</th><th>Assignment</th><th>Percentage</th></tr>
 
 {% for r in results %}
 <tr>
 <td>{{ r[0] }}</td>
 <td>{{ r[1] }}</td>
-<td>{{ r[2] }}</td>
+<td>{{ r[2] | round(1) }}</td>
 </tr>
 {% endfor %}
 

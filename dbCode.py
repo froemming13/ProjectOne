@@ -172,11 +172,11 @@ def get_low_grades(threshold):
 
     # SQL query to find low grades
     query = """
-    SELECT Students.name, Assignments.title, Assignments.max_score, Grades.score
+    SELECT Students.name, Assignments.title, (Grades.score * 109 / Assignments.max_score) AS percentage
     FROM Students
     JOIN Grades ON Students.student_id = Grades.student_id
     JOIN Assignments on Grades.assignment_id = Assignments.assignment_id
-    WHERE (Grades.score / Assignments.max_score)*100 < %s; 
+    WHERE (Grades.score * 1.0 / Assignments.max_score) < (%s / 100); 
     """
     # executes query with given threshold
     cursor.execute(query, (threshold,))
