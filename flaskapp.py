@@ -77,6 +77,11 @@ def update_grades():
             flash("Please enter valid numeric values for student, assignment, and score.", 'danger')
             return redirect(url_for('update_grades'))
         
+        # enforcing valid assignment IDs (only 1-5 allowed)
+        if assignment_id not in [1, 2, 3, 4, 5]:
+            flash("Invalid assignment ID. Only 1-5 are allowed.", 'danger')
+            return redirect(url_for('update_grades'))
+        
         # update student grade
         success = update_student_grades_db(student_id, assignment_id, new_score)
 
