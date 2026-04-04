@@ -113,13 +113,13 @@ The relational database uses three main tables to store students, assignments, a
 ### The JOIN query used in this project:
 
 #### Grades Below a Certain Percentage:
-This is selecting the tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user.
+This is selecting the tables Students, Assignments, and Grades and selecting the given variable we want out of it (i.e. name from Students, title from Assignments). From there we select the main table, Students, and join it together with Grades using the student_id (primary key). We then join Assignments to Grades by using assignment_id (primary key). Finally we use WHERE to select scores from the Grades table that are less than or equal to the provided input from the user. All numbers are calculated into percentages.
 ```mysql
-SELECT Students.name, Assignments.title, Grades.score
+SELECT Students.name, Assignments.title, (Grades.score * 100.0 / Assignments.max_score) AS percentage
 FROM Students
 JOIN Grades ON Students.student_id = Grades.student_id
-JOIN Assignments ON Grades.assignment_id = Assignments.assignment_id
-WHERE Grades.score <= %s;
+JOIN Assignments on Grades.assignment_id = Assignments.assignment_id
+WHERE (Grades.score * 1.0 / Assignments.max_score) < (%s / 100); 
 ```
 ---
 #### Student's Overall Grade:
@@ -167,10 +167,11 @@ DynamoDB stores related data as one item, allowing the application to quickly re
 
 ## Challenges and Insights
 
-The biggest challenge I had was getting MySQL database to properly connect and show up across my local terminal, EC2 instance, and show results on my Flask application. This is partially due to my local device not recognizing `mysql` commands even after multiple rounds of troubleshooting, however it worked through my EC2 instance. I also had a rough time implementing how to append or search through my Assignments table. This is because it is a nested list that holds each assignment and it's information. I did a lot of debugging and work with sections that included the Assignments table (both with CRUD operations AND SQL sections), however I had to turn to ChatGPT to fix a few sections within my CRUD operations to get them to run properly.
+The biggest challenge I had was getting MySQL database to properly connect and show up across my local terminal, EC2 instance, and show results on my Flask application. This is partially due to my local device not recognizing `mysql` commands even after multiple rounds of troubleshooting, however it worked through my EC2 instance. I also had a rough time implementing how to append or search through my Assignments table. This is because it is a nested list that holds each assignment and it's information. I did a lot of debugging and work with sections that included the Assignments table (both with CRUD operations AND SQL sections), however I had to turn to ChatGPT to fix a few sections within my CRUD operations to get them to run properly. 
 
-In regards to what I learned, I learned more about troubleshooting with my local device and terminal and how to deal with my path files when something is not found or recognized when using my terminal.
-<!-- What was the hardest part? What did you learn? Any interesting design decisions? -->
+In regards to what I learned, I learned more about troubleshooting across different environments, especially locally. I learned how to resolve file paths and command recognition problems in my terminal. I also gained some knowledge on how to build a database that uses nested data and how to connect it to my application. The biggest thing for me was breaking down big sections into manageable debugging steps rather than fully building all of my code and having to go back multiple times (as can be seen by commit history). 
+
+The most interest design decision I made was structuring my Assignments table as a nested list to keep assignment information together so CRUD operations can be performed for specific assignments. Building my CRUD operations this way also made it easier to test and debug.
 
 ---
 
