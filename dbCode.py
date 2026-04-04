@@ -172,7 +172,7 @@ def get_low_grades(threshold):
 
     # SQL query to find low grades
     query = """
-    SELECT Students.name, Assignments.title, (Grades.score * 109 / Assignments.max_score) AS percentage
+    SELECT Students.name, Assignments.title, (Grades.score * 100.0 / Assignments.max_score) AS percentage
     FROM Students
     JOIN Grades ON Students.student_id = Grades.student_id
     JOIN Assignments on Grades.assignment_id = Assignments.assignment_id
